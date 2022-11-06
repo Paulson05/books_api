@@ -30,7 +30,7 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
     'iceAndFire' => [
-        'url' => env('ICE_AND_FIRE_API')
+        'base_url' => env('ICE_AND_FIRE_API_BASE_URL')
     ]
 
 ];
