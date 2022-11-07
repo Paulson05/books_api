@@ -82,7 +82,6 @@ class BooksController extends Controller
         return $this->apiResponse->respondWithDataStatusAndCodeOnly(
             $this->bookResource->transformCollection($books->toArray()), JsonResponse::HTTP_OK);
     }
-    
     public function store(CreateBookRequest $request, Book $book)
     {
         $book = $book->create($request->toArray());
@@ -150,7 +149,7 @@ class BooksController extends Controller
     public function externalBook(Request $request)
     {
         try {
-
+             //checking if the book was supplied
             $bookName = trim($request->name);
             $param = '?name=' . $bookName;
             $baseUrl =  config('services.iceAndFire.base_url');
@@ -178,7 +177,7 @@ class BooksController extends Controller
             if(is_array($response->json())) {
                 $data = $response->json()[0];
             }
-
+    //returning the final data
             return [
                 'status_code' => 200,
                 'status' => 'success',

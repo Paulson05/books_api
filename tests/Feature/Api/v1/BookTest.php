@@ -18,16 +18,16 @@ class BookTest extends TestCase
      * @return void
      */
     /** @test */
-    public function it_returns_success_when_creating_a_book()
+    public function createBook()
     {
         $data = [
-            'name' => 'Asefon',
+            'name' => 'paul',
             'isbn' => '123-234-ael',
-            'authors' => 'williams Michael, Asefon Pelumi',
+            'authors' => 'james okoli, jufit amose',
             'number_of_pages' => 25,
-            'publisher' => 'pelumiasefon@gmail.com',
+            'publisher' => 'james@gmail.com',
             'country' => 'Nigeria',
-            'release_date' => '2020-06-09',
+            'release_date' => '2022-06-09',
 
         ];
 
@@ -45,7 +45,7 @@ class BookTest extends TestCase
      * @return void
      */
     /** @test */
-    public function it_returns_success_when_getting_all_books()
+    public function gettingAllBooks()
     {
 
         $response = $this->getJson('/api/v1/books');
@@ -73,10 +73,10 @@ class BookTest extends TestCase
      * @return void
      */
     /** @test */
-    public function it_returns_error_when_getting_filtered_books()
+    public function gettingBooksWithError()
     {
 
-        $response = $this->getJson('/api/v1/books?wrongKey=Asefon');
+        $response = $this->getJson('/api/v1/books?wrongKey=paul');
         $response->assertStatus(JsonResponse::HTTP_OK)
             ->assertJson(["error" => "invalid search key supplied"]);
     }
@@ -88,13 +88,7 @@ class BookTest extends TestCase
      * @return void
      */
     /** @test */
-    // public function it_returns_single_book_when_is_fetched()
-    // {
-
-    //     $response = $this->getJson('/api/v1/books/' . $this->book->id);
-    //     $response->assertStatus(JsonResponse::HTTP_OK)
-    //         ->assertJson(["status_code" => JsonResponse::HTTP_OK]);
-    // }
+ 
 
     /**
      * A basic feature test example.
@@ -102,40 +96,16 @@ class BookTest extends TestCase
      * @return void
      */
     /** @test */
-    // public function it_returns_success_when_book_was_updated()
-    // {
-    //     $data = [
-    //         'name' => 'Asefon',
-    //         'isbn' => '123-234-ael',
-    //         'authors' => 'williams Michael, Asefon Pelumi',
-    //         'number_of_pages' => 25,
-    //         'publisher' => 'pelumiasefon@gmail.com',
-    //         'country' => 'Nigeria',
-    //         'release_date' => '2020-06-09',
-
-    //     ];
-
-    //     $response = $this->patchJson('/api/v1/books/' . $this->book->id, $data);
-    //     $response->assertStatus(JsonResponse::HTTP_OK)
-    //         ->assertJson(["status_code" => JsonResponse::HTTP_OK]);
-    // }
-
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    /** @test */
-    public function it_returns_error_when_book_was_updated()
+    public function book_was_updated_with_error_if_any()
     {
         $data = [
-            'name' => 'Asefon',
+            'name' => 'paul',
             'isbn' => '123-234-ael',
-            'authors' => 'williams Michael, Asefon Pelumi',
+            'authors' => 'james okoli, jufit amose',
             'number_of_pages' => 25,
-            'publisher' => 'pelumiasefon@gmail.com',
+            'publisher' => 'james@gmail.com',
             'country' => 'Nigeria',
-            'release_date' => '2020-06-09',
+            'release_date' => '2022-06-09',
 
         ];
 
@@ -151,13 +121,7 @@ class BookTest extends TestCase
      * @return void
      */
     /** @test */
-    // public function it_returns_No_content_when_content_is_deleted()
-    // {
-
-    //     $response = $this->deleteJson('/api/v1/books/' . $this->book->id);
-    //     $response->assertStatus(JsonResponse::HTTP_OK)
-    //         ->assertJson(["status_code" => JsonResponse::HTTP_NO_CONTENT]);
-    // }
+    
 
     /**
      * A basic feature test example.
@@ -165,22 +129,14 @@ class BookTest extends TestCase
      * @return void
      */
     /** @test */
-    // public function it_return_Invalid_when_content_is_deleted()
-    // {
-
-    //     $response = $this->getJson('/api/v1/external-books');
-    //     $response->assertStatus(JsonResponse::HTTP_OK)
-    //         ->assertJson([
-    //             "error" => "Invalid Book name supplied"
-    //         ]);
-    // }
+   
     /**
      * A basic feature test example.
      *
      * @return void
      */
     /** @test */
-    public function it_returns_error_when_wrong_data_is_supplied()
+    public function return_error_when_data_is_wrong()
     {
 
         $response = $this->getJson('/api/v1/external-books/?name=' . "Wrong title of Kings");

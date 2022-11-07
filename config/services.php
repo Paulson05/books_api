@@ -32,5 +32,4 @@ return [
     'iceAndFire' => [
         'base_url' => env('ICE_AND_FIRE_API_BASE_URL')
     ]
-
 ];

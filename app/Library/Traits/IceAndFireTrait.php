@@ -17,7 +17,7 @@ trait IceAndFireTrait
     public function getWithFilter($params)
     {
         try {
-            return (Http::get(config('services.iceAndFire.url') . $params))->json();
+            return (Http::get(config('services.iceAndFire.base_url') . $params))->json();
         } catch (\Exception $e) {
             return 'error getting book from external source';
         }
