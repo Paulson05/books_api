@@ -29,12 +29,7 @@ class Encrypter implements EncrypterContract, StringEncrypter
      *
      * @var array
      */
-    private static $supportedCiphers = [
-        'aes-128-cbc' => ['size' => 16, 'aead' => false],
-        'aes-256-cbc' => ['size' => 32, 'aead' => false],
-        'aes-128-gcm' => ['size' => 16, 'aead' => true],
-        'aes-256-gcm' => ['size' => 32, 'aead' => true],
-    ];
+    
 
     /**
      * Create a new encrypter instance.
@@ -45,19 +40,7 @@ class Encrypter implements EncrypterContract, StringEncrypter
      *
      * @throws \RuntimeException
      */
-    public function __construct($key, $cipher = 'aes-128-cbc')
-    {
-        $key = (string) $key;
-
-        if (! static::supported($key, $cipher)) {
-            $ciphers = implode(', ', array_keys(self::$supportedCiphers));
-
-            throw new RuntimeException("Unsupported cipher or incorrect key length. Supported ciphers are: {$ciphers}.");
-        }
-
-        $this->key = $key;
-        $this->cipher = $cipher;
-    }
+    
 
     /**
      * Determine if the given key and cipher combination is valid.

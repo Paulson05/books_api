@@ -69,6 +69,20 @@ class BooksController extends Controller
      * @apiResourceCollection \App\Http\Resources\v1\Book\BookResourceCollection
      * @apiResourceModel \App\Models\Book
      */
+
+    public function index(Request $request)
+    {
+
+        if ($request->all()) {
+            $books = $this->bookRepository->searchBookTable($request->all());
+            if (is_string($books)) return $this->apiResponse->respondWithError($books);
+        } else {
+            $books = $this->bookRepository->getAllBooks();
+        }
+        return $this->apiResponse->respondWithDataStatusAndCodeOnly(
+            $this->bookResource->transformCollection($books->toArray()), JsonResponse::HTTP_OK);
+    }
+    
     public function store(CreateBookRequest $request, Book $book)
     {
         $book = $book->create($request->toArray());

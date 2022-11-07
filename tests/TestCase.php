@@ -24,12 +24,12 @@ abstract class TestCase extends BaseTestCase
          * This disables the exception handling to display the stacktrace on the console
          * the same way as it shown on the browser
          */
-        $this->disableExceptionHandling();
+        // $this->disableExceptionHandling()
 
-        \Artisan::call('migrate');
+        // \Artisan::call('migrate');
 
-        $books = factory(\App\Models\Book::class)->times(3)->create();
-        $this->book = $books[0];
+        // $books = factory(\App\Models\Book::class)->times(3)->create();
+        // $this->book = $books[0];
 
 
     }
