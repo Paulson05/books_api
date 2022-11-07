@@ -31,6 +31,6 @@ use Illuminate\Support\Facades\Route;
 Route::group([ 'namespace' => 'Api\v1\Books'], function() {
     Route::resource('v1/books', 'BooksController');
     Route::get('external-books', 'BooksController@externalBook')->name('books.external');
-    Route::post('v1/books', 'BooksController@getBooks');
+    // Route::post('v1/books', 'BooksController@getBooks');
 });
 

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Api\v1\Books;
-
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Http\Library\RestFullResponse\ApiResponse;
 use App\Http\Repository\BookRepository;
@@ -53,18 +53,7 @@ class BooksController extends Controller
      * @apiResourceCollection \App\Http\Resources\v1\Book\BookResourceCollection
      * @apiResourceModel \App\Models\Book
      */
-    public function index(Request $request)
-    {
-
-        if ($request->all()) {
-            $books = $this->bookRepository->searchBookTable($request->all());
-            if (is_string($books)) return $this->apiResponse->respondWithError($books);
-        } else {
-            $books = $this->bookRepository->getAllBooks();
-        }
-        return $this->apiResponse->respondWithDataStatusAndCodeOnly(
-            $this->bookResource->transformCollection($books->toArray()), JsonResponse::HTTP_OK);
-    }
+    
 
 
     /**
@@ -148,23 +137,46 @@ class BooksController extends Controller
     {
         try {
 
-            $bookName = $request->name;
+            $bookName = trim($request->name);
             $param = '?name=' . $bookName;
             $baseUrl =  config('services.iceAndFire.base_url');
             $url = $baseUrl . '/api/books' . $param;
             $response = Http::get($url);
-            
-            if(!$response->body()) {
+            $data = [
+                'name' => '',
+                'isbn' => '',
+                'authors' => '',
+                'country' => '',
+                'numberOfPages' => 0,
+                'publisher' => '',
+                'released' => ''
+
+            ];
+
+            if(empty($response->json())) {
                 return ["status_code" => 404,
                     "Status" => "not found",
                     "data" => []
                 ];
             }
-    
+
+
+            if(is_array($response->json())) {
+                $data = $response->json()[0];
+            }
+
             return [
                 'status_code' => 200,
                 'status' => 'success',
-                'data' => $response->json()
+                'data' => [
+                    'name' => $data['name'],
+                    'isbn' => $data['isbn'],
+                    'authors' => $data['authors'],
+                    'number_of_pages' => $data['numberOfPages'],
+                    'publisher'  => $data['publisher'],
+                    'country'=>$data['country'],
+                    'release_date'=> $data['released']
+                ]
             ];
         } catch(\Exception $e) {
             Log::debug($e->getMessage());
@@ -174,37 +186,12 @@ class BooksController extends Controller
             ];
         }
         
-        // //checking if the book was supplied
-        // if (empty($bookName)) return $this->apiResponse->respondWithError('Invalid Book name supplied check spelling');
-        // //finding the book
-        // $bookCollection = $this->bookRepository->findBookByName($bookName);
-        // //checking if it throws error
 
-        // if (is_string($bookCollection)) return $this->apiResponse->respondWithError('Error fetching the book from the api');
-        // //returning the final data
-        // return $this->apiResponse->respondWithDataStatusAndCodeOnly(new ExternalBookResourceCollection($bookCollection));
-    }
-
-    public function getBooks()
-    {
-        $url = config('services.iceAndFire.base_url') . '/api/books';
-        $response = Http::get($url);
-
-        if(!$response->body()) {
-            return ["status_code" => 404,
-                "Status" => "not found",
-                "data" => []
-            ];
-        }
         
-        $responseArray = $response->json();
-
-        dd($responseArray);
-
-        return ["status_code" => 200,
-            "Status" => "success",
-            "data" => $response->json('url')
-        ];
+        
+       
     }
+
+    
 
 }
